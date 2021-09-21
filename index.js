@@ -28,22 +28,28 @@ function load (opts) {
 }
 
 load.path = function (dir) {
+  console.log("LOAD PATH");
   dir = path.resolve(dir)
-
+  console.log({ dir });
   try {
     var name = runtimeRequire(path.join(dir, 'package.json')).name.toUpperCase().replace(/-/g, '_')
+    console.log({ name });
     if (process.env[name + '_PREBUILD']) dir = process.env[name + '_PREBUILD']
+    console.log({ dir });
   } catch (err) {}
 
   if (!prebuildsOnly) {
     var localBuild = getFirst(path.join(dir, 'native'), matchBuild)
+    console.log({ localBuild });
     if (localBuild) return localBuild
   }
 
   var prebuild = resolve(dir)
+  console.log({ prebuild });
   if (prebuild) return prebuild
 
   var nearby = resolve(path.dirname(process.execPath))
+  console.log({ nearby });
   if (nearby) return nearby
 
   var target = [
@@ -64,9 +70,15 @@ load.path = function (dir) {
   function resolve (dir) {
     // Find most specific flavor first
     var prebuilds = path.join(dir, 'prebuilds', platform + '-' + arch)
+    console.log({ dir, prebuilds });
     var parsed = readdirSync(prebuilds).map(parseTags)
+    console.log({ parsed });
+    console.log({ tags: matchTags(runtime, abi), runtime, abi });
     var candidates = parsed.filter(matchTags(runtime, abi))
-    var winner = candidates.sort(compareTags(runtime))[0]
+    console.log({ candidates });
+    console.log({ compared: compareTags(runtime) });
+    var winner = candidates.sort(compareTags(runtime))[0];
+    console.log({ winner });
     if (winner) return path.join(prebuilds, winner.file)
   }
 }

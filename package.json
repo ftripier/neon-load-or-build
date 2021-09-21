@@ -1,10 +1,10 @@
 {
   "name": "neon-load-or-build",
-  "version": "2.2.2",
+  "version": "2.2.1",
   "description": "Build tool and bindings loader for Neon that supports prebuilds",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ftripier/neon-load-or-build.git"
+    "url": "git+https://github.com/ftripier/neon-load-or-build.git"
   },
   "author": "Andre Staltz (staltz.com)",
   "license": "MIT",
